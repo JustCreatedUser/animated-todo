@@ -1,5 +1,5 @@
 import { TaskInput, TasksStorage } from "./tasks.js";
-export const API = "http://localhost:3000/api/tasks";
+export const API = "https://animated-todo.onrender.com/api/tasks";
 const wrap = document.querySelector(".wrap"),
   taskInputContainer = wrap.querySelector(".task-input-container"),
   closeTaskInputBtn = taskInputContainer.querySelector("#close-task-input-btn"),
