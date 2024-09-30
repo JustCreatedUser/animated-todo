@@ -1,2 +1,2 @@
-import express from "express";import router from "../routes/main.js";function setupExpress(PORT){const app=express();app.use(express.urlencoded({extended:!0})).use(express.json()).use(express.static("./public")).use(router).listen(PORT,()=>{console.log("app ready on port "+PORT)})}
+import express from "express";import router from "../routes/main.js";function setupExpress(PORT){const app=express();app.use(express.urlencoded({extended:!0})).use(express.json()).use(express.static("../public")).use(router).listen(PORT,()=>{console.log("app ready on port "+PORT)})}
 export default setupExpress
