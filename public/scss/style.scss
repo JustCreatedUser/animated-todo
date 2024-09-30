@@ -1,0 +1,318 @@
+@charset "UTF-8";
+* {
+  color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+//! mobile-design
+:root {
+  --task-input-scale: 1;
+  --task-input-font-scale: 1;
+  --list-item-font-size: 20px;
+}
+@media screen and (max-width: 800px) {
+  :root {
+    --task-input-scale: 0.5;
+    --task-input-font-scale: 0.6;
+    --list-item-font-size: 17px;
+  }
+}
+@function useScale($size) {
+  @return calc($size * var(--task-input-scale));
+}
+@property --wrap-background-hue {
+  syntax: "<angle>";
+  initial-value: 180deg;
+  inherits: false;
+}
+@keyframes body-background-forwards {
+  from {
+    --wrap-background-hue: 180deg;
+  }
+  to {
+    --wrap-background-hue: 540deg;
+  }
+}
+@keyframes body-background-backwards {
+  from {
+    --wrap-background-hue: 540deg;
+  }
+  to {
+    --wrap-background-hue: 180deg;
+  }
+}
+//! mobile-design
+
+//! main part
+body {
+  overflow: hidden;
+}
+header {
+  padding: 30px;
+  display: flex;
+  width: 100%;
+}
+.wrap {
+  --wrap-background-hue: 180deg;
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  height: 100vh;
+  background: linear-gradient(
+    -135deg,
+    hsl(var(--wrap-background-hue) 100% 50%) 0%,
+    hsl(calc(var(--wrap-background-hue) + 60deg) 100% 50%) 100%
+  );
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  font-size: clamp(30px, 6.33vw, 40px);
+}
+h2 {
+  font-size: clamp(20px, 3.75vw, 30px);
+}
+li {
+  background-color: #0096fc;
+  width: clamp(350px, 80%, 1000px);
+  font-weight: bold;
+  font-size: clamp(15px, 2.5vw, 20px);
+  display: flex;
+  justify-content: space-between;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 8px 5%;
+  align-items: center;
+}
+ul {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+  align-items: center;
+}
+.task-actions {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+.btn-edit,
+.btn-delete {
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn-edit {
+  background: grey;
+}
+.btn-delete {
+  background: black;
+  font-size: inherit;
+}
+.completed {
+  background: #00b600;
+  .taskItem {
+    text-decoration: line-through;
+  }
+}
+.expired {
+  background: darkred;
+}
+//! main part
+
+//! task input sides
+.task-input_side {
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  height: useScale(100px);
+  width: useScale(100px);
+  border: 3px solid grey;
+}
+.back-side {
+  width: useScale(600px);
+  transform: translateZ(useScale(-50px)) rotateX(180deg);
+  justify-content: space-around;
+}
+.front-side {
+  width: useScale(600px);
+  transform: translateZ(useScale(50px));
+}
+.top-side {
+  width: useScale(600px);
+  top: useScale(-50px);
+  transform: rotateX(90deg);
+  input {
+    width: useScale(300px);
+    text-align: center;
+  }
+  span {
+    width: useScale(300px);
+    display: flex;
+    justify-content: center;
+  }
+}
+.bottom-side {
+  width: useScale(600px);
+  bottom: useScale(-50px);
+  transform: rotateX(-90deg);
+  justify-content: space-around;
+}
+//! task input sides
+
+//! task input
+#close-task-input-btn {
+  user-select: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-color: transparent;
+  font-size: clamp(50px, 12.5vw, 100px);
+  appearance: none;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    filter: blur(1px);
+  }
+}
+.open-task-input-btn {
+  border: 1px solid;
+  border-color: transparent;
+  padding: 10px;
+  margin-left: 20px;
+  background-color: #0000ff54;
+  border-radius: 5px;
+  margin-right: 5px;
+  width: fit-content;
+  cursor: pointer;
+  font-size: clamp(18px, 3.5vw, 28px);
+  &:active {
+    outline: 1px solid black;
+  }
+  &:hover {
+    border-color: black;
+  }
+}
+#task-title {
+  width: useScale(600px);
+  padding: 10px;
+}
+.tasks-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+}
+.task-input {
+  font-size: calc(27px * var(--task-input-font-scale));
+  --x-rotation: 0deg;
+  --y-rotation: 0deg;
+  transform: rotateX(var(--x-rotation)) rotateY(var(--y-rotation));
+  transform-origin: center;
+  position: absolute;
+  height: useScale(100px);
+  width: useScale(600px);
+  transform-style: preserve-3d;
+  &-container {
+    display: flex;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 300ms, 0ms;
+    transition-delay: 0ms, 300ms;
+    background: #0000007d;
+    perspective: 1000px;
+    cursor: grab;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  &-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center;
+    transform-style: preserve-3d;
+  }
+}
+@keyframes changeText {
+  from {
+    content: "Create";
+  }
+  to {
+    content: "Edit";
+  }
+}
+#edit-task-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: useScale(100px);
+  &::after {
+    content: "";
+    animation: forwards 600ms changeText;
+  }
+}
+#task-title,
+#task-expiration-date[type="date"],
+#edit-task-btn {
+  border: none;
+  height: 100%;
+  border: 1px solid grey;
+  box-shadow: inset 0 0 0 100px black;
+  font-size: inherit;
+}
+#task-expiration-date[type="date"] {
+  border: none;
+}
+#task-priority {
+  font-size: calc(20px * var(--task-input-font-scale));
+  text-align: center;
+  background: transparent;
+}
+#task-completed {
+  cursor: pointer;
+  width: useScale(40px);
+  display: flex;
+  color: red;
+  font-size: calc(60px * var(--task-input-font-scale));
+  justify-content: center;
+  align-items: center;
+  height: useScale(40px);
+  box-shadow: inset 0 0 0 100px black;
+  &::after {
+    content: "⨯";
+  }
+}
+#task-completed:checked {
+  box-shadow: unset;
+  accent-color: green;
+  &::after {
+    content: "";
+  }
+}
+#task-input-visibility:checked + .task-input-container {
+  transition-property: opacity;
+  visibility: visible;
+  opacity: 1;
+}
+option {
+  color: black;
+}
+.creating-state #edit-task-btn::after {
+  animation: none;
+  content: "Create";
+}
+
+//! task input

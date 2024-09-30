@@ -1,0 +1,1 @@
+import{Router}from "express";import{renderMainPage}from "../controllers/main.js";import taskRouter from "./api-tasks.js";const router=Router();router.get("/",renderMainPage).use("/api/tasks",taskRouter);export default router

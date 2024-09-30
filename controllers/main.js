@@ -1,0 +1,5 @@
+import Tasks from "../models/task.js";export function renderMainPage(req,res){res.sendFile("../public/index.html")}
+export async function getAllTasks(req,res){try{const allTasks=await Tasks.find({});res.json(allTasks)}catch(err){res.status(400).json({message:err.message})}}
+export async function createNewTask(req,res){try{const newTask=new Tasks(req.body);await newTask.save();res.json({message:"Task created"})}catch(err){res.json({message:err.message})}}
+export function deleteTask(req,res){Tasks.findOneAndDelete({title:req.body.previousTitle}).then(()=>{res.json({message:"Task deleted"})}).catch((err)=>{res.status(400).json({message:err.message})})}
+export async function updateTask(req,res){try{const thisTask=await Tasks.findOne({title:req.body.previousTitle});const{title,completed,expirationDate,priority}=req.body.updated;thisTask.title=title;thisTask.completed=completed;thisTask.expirationDate=expirationDate;thisTask.priority=priority;await thisTask.save();res.json({message:"Task updated"})}catch(err){res.status(400).json({message:err.message})}}

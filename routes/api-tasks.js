@@ -1,0 +1,1 @@
+import{Router}from "express";import{createNewTask,deleteTask,getAllTasks,updateTask,}from "../controllers/main.js";const taskRouter=new Router();taskRouter.post("/",createNewTask).get("/",getAllTasks).delete("/",deleteTask).put("/",updateTask);export default taskRouter

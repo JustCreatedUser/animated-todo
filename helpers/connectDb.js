@@ -1,0 +1,1 @@
+import mongoose from "mongoose";export default function connectDb(){mongoose.connect(process.env.MONGO_URI).then(()=>{console.log("database connected")},console.warn).catch(console.error)}

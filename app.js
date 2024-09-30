@@ -1,0 +1,1 @@
+import dotenv from "dotenv";import connectDb from "./helpers/connectDb.js";import setupExpress from "./helpers/setup-express.js";dotenv.config();connectDb();setupExpress(process.env.PORT||3000)
