@@ -1,5 +1,5 @@
 import { TaskInput, TasksStorage } from "./tasks.js";
-export const API = "api/tasks";
+export const API = "/api/tasks";
 const wrap = document.querySelector(".wrap"),
   taskInputContainer = wrap.querySelector(".task-input-container"),
   closeTaskInputBtn = taskInputContainer.querySelector("#close-task-input-btn"),
